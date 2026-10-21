@@ -283,7 +283,7 @@ function answer(selected){
   nextTrial();
 }
 
-function finishMeasure(){
+async function finishMeasure(){
   const a=times.length ? Math.round(avg(times)) : null;
   const accuracy=Math.round(correctCount/TRIALS*100);
   const speedScore=a ? 1000/a : 0;
