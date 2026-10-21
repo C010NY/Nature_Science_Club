@@ -129,27 +129,55 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 </section>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const supabaseClient = window.supabase.createClient(
+  "https://gvqsyscxqocnswxrfbif.supabase.co/rest/v1/",
+  "sb_publishable_wEK-1CWE2Lcmr570BOLb7w_VCggTgGd"
+)
 const TRIALS=5;
 let mode="baseline",trial=0,times=[],baseAvg=null,breathType="",breathDesc="",timer=null,breathCountdown=null,trialTimer=null,startTime=0,waiting=false,correctCount=0,mistakeCount=0,falseStartCount=0;
 let baseAccuracy=null,baseMistakes=0,baseFalseStarts=0;
+let participantCode = "";
 
 function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
 function avg(a){return a.reduce((x,y)=>x+y,0)/a.length}
-function startBaseline(){
-  mode="baseline";
-  times=[];
-  baseAvg=null;
-  breathType="";
-  breathDesc="";
+function startBaseline() {
+  const code = prompt("参加者コードを入力してください（例：P001）");
+
+  if (code === null) return;
+
+  participantCode = code.trim();
+
+  if (!/^[A-Za-z0-9_-]{1,30}$/.test(participantCode)) {
+    alert("参加者コードは英数字、ハイフン、アンダースコアの1〜30文字で入力してください。");
+    return;
+  }
+
+  mode = "baseline";
+  times = [];
+  baseAvg = null;
+  breathType = "";
+  breathDesc = "";
+
   clearInterval(timer);
   clearInterval(breathCountdown);
-  timer=null;
-  breathCountdown=null;
-  document.querySelectorAll(".option").forEach(x=>x.classList.remove("selected"));
-document.getElementById("breathDesc").textContent="呼吸法を選択してください。";
-  document.getElementById("introTitle").textContent="基準測定";
-  document.getElementById("introText").textContent="普段どおりに呼吸しながら、同じ選択反応課題を5回行います。";
+  clearTimeout(trialTimer);
+
+  timer = null;
+  breathCountdown = null;
+
+  document.querySelectorAll(".option").forEach(x =>
+    x.classList.remove("selected")
+  );
+
+  document.getElementById("breathDesc").textContent =
+    "呼吸法を選択してください。";
+
+  document.getElementById("introTitle").textContent = "基準測定";
+  document.getElementById("introText").textContent =
+    "普段どおりに呼吸しながら、同じ選択反応課題を5回行います。";
+
   show("measureIntro");
 }
 function beginTrials(){
@@ -202,7 +230,7 @@ function startTrial(){
   let t=document.getElementById("target");
   t.className="ready"; t.textContent="待って…";
   document.getElementById("measureMessage").textContent="色が出るまで待って！";
-  let delay=2000+Math.random()*3000;
+  let delay=2000+Math.random()*3000;//待ち時間の変更
   trialTimer=setTimeout(()=>showColor(),delay);
 }
 
@@ -274,6 +302,29 @@ function finishMeasure(){
 
     const d=(baseAvg!==null && a!==null) ? baseAvg-a : null;
     const pct=(d!==null && baseAvg) ? d/baseAvg*100 : null;
+    const { error } = await supabaseClient
+  .from("experiment_results")
+  .insert({
+    participant_code: participantCode,
+    breath_method: breathType,
+    baseline_ms: baseAvg,
+    after_ms: a,
+    baseline_accuracy: baseAccuracy,
+    after_accuracy: accuracy,
+    baseline_mistakes: baseMistakes,
+    after_mistakes: mistakeCount,
+    baseline_false_starts: baseFalseStarts,
+    after_false_starts: falseStartCount
+  });
+
+if (error) {
+  console.error("保存エラー:", error);
+  document.getElementById("resultText").textContent =
+    "実験結果を表示しましたが、データの保存に失敗しました。もう一度試してください。";
+} else {
+  document.getElementById("resultText").textContent +=
+    "\nデータベースへの保存が完了しました。";
+}
 
     document.getElementById("change").textContent =
       d!==null ? ((d>=0?"⚡ ":"")+Math.abs(d)+" ms "+(d>=0?"速くなりました":"遅くなりました")) : "比較できません";
