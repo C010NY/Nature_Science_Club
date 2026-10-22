@@ -143,14 +143,14 @@ let participantCode = "";
 function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
 function avg(a){return a.reduce((x,y)=>x+y,0)/a.length}
 function startBaseline() {
-  const code = prompt("参加者コードを入力してください（例：P001）");
+  const code = prompt("ニックネームを入力してください");
 
   if (code === null) return;
 
   participantCode = code.trim();
 
 if (participantCode.length < 1 || participantCode.length > 30) {
-  alert("参加者コードは1〜30文字で入力してください。");
+  alert("ニックネームは1〜30文字で入力してください。");
   return;
 }
 
