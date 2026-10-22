@@ -149,10 +149,10 @@ function startBaseline() {
 
   participantCode = code.trim();
 
-  if (!/^[A-Za-z0-9_-]{1,30}$/.test(participantCode)) {
-    alert("参加者コードは英数字、ハイフン、アンダースコアの1〜30文字で入力してください。");
-    return;
-  }
+if (participantCode.length < 1 || participantCode.length > 30) {
+  alert("参加者コードは1〜30文字で入力してください。");
+  return;
+}
 
   mode = "baseline";
   times = [];
