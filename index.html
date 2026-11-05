@@ -82,7 +82,7 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 <p id="breathDesc" class="note">呼吸法を選択してください。</p>
 </div>
 
-<button class="secondary" onclick="show('measureIntro')">最初に戻る</button>
+<button class="secondary" onclick="show('home')">最初に戻る</button>
 </section>
 
 <section id="breathIntro" class="screen">
@@ -123,7 +123,7 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 </div>
 <div class="result" id="change">--</div>
 <p id="resultText"></p>
-<button onclick="show('measureIntro')">もう一度実験する</button>
+<button onclick="show('home')">もう一度実験する</button>
 <p class="note">速くなった・遅くなったという結果は、体調、集中状態、練習効果など様々な要因の影響を受けます。この体験だけで「呼吸法が反応速度を改善した」とは判断できません。</p>
 </div>
 </section>
@@ -135,6 +135,7 @@ const supabaseClient = window.supabase.createClient(
   "https://gvqsyscxqocnswxrfbif.supabase.co",
   "sb_publishable_wEK-1CWE2Lcmr570BOLb7w_VCggTgGd"
 )
+code = "";
 const TRIALS=5;
 let mode="baseline",trial=0,times=[],baseAvg=null,breathType="",breathDesc="",timer=null,breathCountdown=null,trialTimer=null,startTime=0,waiting=false,correctCount=0,mistakeCount=0,falseStartCount=0;
 let baseAccuracy=null,baseMistakes=0,baseFalseStarts=0;
@@ -143,7 +144,7 @@ let participantCode = "";
 function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
 function avg(a){return a.reduce((x,y)=>x+y,0)/a.length}
 function startBaseline() {
-  const code = prompt("ニックネームを入力してください");
+  if(code == "") code = prompt("ニックネームを入力してください");
 
   if (code === null) return;
 
