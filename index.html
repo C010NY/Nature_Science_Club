@@ -135,6 +135,7 @@ const supabaseClient = window.supabase.createClient(
   "https://gvqsyscxqocnswxrfbif.supabase.co",
   "sb_publishable_wEK-1CWE2Lcmr570BOLb7w_VCggTgGd"
 )
+const code="";
 const TRIALS=5;
 let mode="baseline",trial=0,times=[],baseAvg=null,breathType="",breathDesc="",timer=null,breathCountdown=null,trialTimer=null,startTime=0,waiting=false,correctCount=0,mistakeCount=0,falseStartCount=0;
 let baseAccuracy=null,baseMistakes=0,baseFalseStarts=0;
@@ -143,7 +144,7 @@ let participantCode = "";
 function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
 function avg(a){return a.reduce((x,y)=>x+y,0)/a.length}
 function startBaseline() {
-  const code = prompt("ニックネームを入力してください");
+  if(code == "")code = prompt("ニックネームを入力してください");
 
   if (code === null) return;
 
