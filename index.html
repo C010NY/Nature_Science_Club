@@ -51,7 +51,7 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 <div class="card center">
 <h2 id="introTitle">基準測定</h2>
 <p id="introText">普段どおりに呼吸しながら測定します。色が表示されたら、対応する色のボタンをできるだけ早く押してください。</p>
-<button onclick="beginTrials()">測定開始</button>
+<button onclick="beginTrials();reset();">測定開始</button>
 </div>
 </section>
 
@@ -82,7 +82,7 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 <p id="breathDesc" class="note">呼吸法を選択してください。</p>
 </div>
 
-<button class="secondary" onclick="show('home')">最初に戻る</button>
+<button class="secondary" onclick="show('measureIntro');reset();">最初に戻る</button>
 </section>
 
 <section id="breathIntro" class="screen">
@@ -123,7 +123,7 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 </div>
 <div class="result" id="change">--</div>
 <p id="resultText"></p>
-<button onclick="show('home')">もう一度実験する</button>
+<button onclick="show('measureIntro');reset();">もう一度実験する</button>
 <p class="note">速くなった・遅くなったという結果は、体調、集中状態、練習効果など様々な要因の影響を受けます。この体験だけで「呼吸法が反応速度を改善した」とは判断できません。</p>
 </div>
 </section>
@@ -135,7 +135,6 @@ const supabaseClient = window.supabase.createClient(
   "https://gvqsyscxqocnswxrfbif.supabase.co",
   "sb_publishable_wEK-1CWE2Lcmr570BOLb7w_VCggTgGd"
 )
-code = "";
 const TRIALS=5;
 let mode="baseline",trial=0,times=[],baseAvg=null,breathType="",breathDesc="",timer=null,breathCountdown=null,trialTimer=null,startTime=0,waiting=false,correctCount=0,mistakeCount=0,falseStartCount=0;
 let baseAccuracy=null,baseMistakes=0,baseFalseStarts=0;
@@ -144,7 +143,7 @@ let participantCode = "";
 function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
 function avg(a){return a.reduce((x,y)=>x+y,0)/a.length}
 function startBaseline() {
-  if(code == "") code = prompt("ニックネームを入力してください");
+  const code = prompt("ニックネームを入力してください");
 
   if (code === null) return;
 
@@ -154,20 +153,6 @@ if (participantCode.length < 1 || participantCode.length > 30) {
   alert("ニックネームは1〜30文字で入力してください。");
   return;
 }
-
-  mode = "baseline";
-  times = [];
-  baseAvg = null;
-  breathType = "";
-  breathDesc = "";
-
-  clearInterval(timer);
-  clearInterval(breathCountdown);
-  clearTimeout(trialTimer);
-
-  timer = null;
-  breathCountdown = null;
-
   document.querySelectorAll(".option").forEach(x =>
     x.classList.remove("selected")
   );
@@ -180,6 +165,21 @@ if (participantCode.length < 1 || participantCode.length > 30) {
     "普段どおりに呼吸しながら、同じ選択反応課題を5回行います。";
 
   show("measureIntro");
+}
+function reset()
+{
+  mode = "baseline";
+  times = [];
+  baseAvg = null;
+  breathType = "";
+  breathDesc = "";
+
+  clearInterval(timer);
+  clearInterval(breathCountdown);
+  clearTimeout(trialTimer);
+
+  timer = null;
+  breathCountdown = null;
 }
 function beginTrials(){
   trial=0;times=[];correctCount=0;mistakeCount=0;falseStartCount=0;
