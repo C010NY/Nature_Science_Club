@@ -136,9 +136,8 @@ const supabaseClient = window.supabase.createClient(
   "https://gvqsyscxqocnswxrfbif.supabase.co",
   "sb_publishable_wEK-1CWE2Lcmr570BOLb7w_VCggTgGd"
 )
-reverse = false;
 const TRIALS=5;
-let mode="baseline",trial=0,times=[],baseAvg=null,breathType="",breathDesc="",timer=null,breathCountdown=null,trialTimer=null,startTime=0,waiting=false,correctCount=0,mistakeCount=0,falseStartCount=0;
+let mode="baseline",trial=0,times=[],baseAvg=null,breathType="",breathDesc="",timer=null,breathCountdown=null,trialTimer=null,startTime=0,waiting=false,correctCount=0,mistakeCount=0,falseStartCount=0,reverse = false;
 let baseAccuracy=null,baseMistakes=0,baseFalseStarts=0;
 let participantCode = "";
 
@@ -190,9 +189,9 @@ function beginTrials(){
   show("measure"); updateProgress(); resetTarget();
 }
 function beginTrials_r(){
-  trial=0;times=[];correctCount=0;mistakeCount=0;flaseStartCount=0;reverse = true;
-  documetn.getElementById("startButton").disabled=false;
-  show("measure");updateProgress();resetTarget();
+  trial=0;times=[];correctCount=0;mistakeCount=0;falseStartCount=0;reverse = true;
+  document.getElementById("startButton").disabled=false;
+  show("measure"); updateProgress(); resetTarget();
 }
 function updateProgress(){document.getElementById("trialLabel").textContent=`${trial+1} / ${TRIALS}`;document.getElementById("bar").style.width=(trial/TRIALS*100)+"%"}
 function shuffleAnswerButtons(){
