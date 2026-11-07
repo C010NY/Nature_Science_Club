@@ -52,6 +52,7 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 <h2 id="introTitle">基準測定</h2>
 <p id="introText">普段どおりに呼吸しながら測定します。色が表示されたら、対応する色のボタンをできるだけ早く押してください。</p>
 <button onclick="beginTrials();reset();">測定開始</button>
+<button onclick="beginTrials_r();reset();">測定開始(逆順)</button>
 </div>
 </section>
 
@@ -135,6 +136,7 @@ const supabaseClient = window.supabase.createClient(
   "https://gvqsyscxqocnswxrfbif.supabase.co",
   "sb_publishable_wEK-1CWE2Lcmr570BOLb7w_VCggTgGd"
 )
+reverse = false;
 const TRIALS=5;
 let mode="baseline",trial=0,times=[],baseAvg=null,breathType="",breathDesc="",timer=null,breathCountdown=null,trialTimer=null,startTime=0,waiting=false,correctCount=0,mistakeCount=0,falseStartCount=0;
 let baseAccuracy=null,baseMistakes=0,baseFalseStarts=0;
@@ -182,10 +184,15 @@ function reset()
   breathCountdown = null;
 }
 function beginTrials(){
-  trial=0;times=[];correctCount=0;mistakeCount=0;falseStartCount=0;
+  trial=0;times=[];correctCount=0;mistakeCount=0;falseStartCount=0;reverse = false;
   // 次の測定を開始するとき、「開始」ボタンを再び有効化
   document.getElementById("startButton").disabled=false;
   show("measure"); updateProgress(); resetTarget();
+}
+function beginTrials_r(){
+  trial=0;times=[];correctCount=0;mistakeCount=0;flaseStartCount=0;reverse = true;
+  documetn.getElementById("startButton").disabled=false;
+  show("measure");updateProgress();resetTarget();
 }
 function updateProgress(){document.getElementById("trialLabel").textContent=`${trial+1} / ${TRIALS}`;document.getElementById("bar").style.width=(trial/TRIALS*100)+"%"}
 function shuffleAnswerButtons(){
