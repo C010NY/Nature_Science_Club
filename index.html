@@ -180,7 +180,7 @@ function start(){
 }
 function start_r(){
   reverse = true;
-  show("measureIntro");
+  show("breathSelect");
 }
 function reset()
 {
@@ -311,13 +311,14 @@ async function finishMeasure(){
   const speedScore=a ? 1000/a : 0;
   const composite=Math.round(speedScore*(accuracy/100)*100)/100;
 
-  if(mode==="baseline"){
+  if((mode == "baseline" && reverse == false)||(mode != "baseLine" && reverse == true)){
     baseAvg=a;
     baseAccuracy=accuracy;
     baseMistakes=mistakeCount;
     baseFalseStarts=falseStartCount;
     document.getElementById("baseResult").textContent=a!==null ? a+" ms" : "測定不能";
-    show("breathSelect");
+    if(!reverse)show("breathSelect");
+    else show("measureIntro");
   }else{
     document.getElementById("afterLabel").textContent=breathType || "選択した呼吸法";
     document.getElementById("afterResult").textContent=a!==null ? a+" ms" : "測定不能";
