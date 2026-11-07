@@ -47,12 +47,18 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 </div>
 </section>
 
+<section id="reverse" class="screen">
+  <div class="box">
+    <button onclick="start()">正順で始める</button>
+    <button onclick="start_r()">逆順で始める</button>
+  </div>
+</section>
+
 <section id="measureIntro" class="screen">
 <div class="card center">
 <h2 id="introTitle">基準測定</h2>
 <p id="introText">普段どおりに呼吸しながら測定します。色が表示されたら、対応する色のボタンをできるだけ早く押してください。</p>
 <button onclick="beginTrials();reset();">測定開始</button>
-<button onclick="beginTrials_r();reset();">測定開始(逆順)</button>
 </div>
 </section>
 
@@ -165,7 +171,8 @@ if (participantCode.length < 1 || participantCode.length > 30) {
   document.getElementById("introText").textContent =
     "普段どおりに呼吸しながら、同じ選択反応課題を5回行います。";
 
-  show("measureIntro");
+  show("reverse");
+    //show("measureIntro");
 }
 function reset()
 {
