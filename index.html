@@ -198,13 +198,8 @@ function reset()
   breathCountdown = null;
 }
 function beginTrials(){
-  trial=0;times=[];correctCount=0;mistakeCount=0;falseStartCount=0;reverse = false;
+  trial=0;times=[];correctCount=0;mistakeCount=0;falseStartCount=0;
   // 次の測定を開始するとき、「開始」ボタンを再び有効化
-  document.getElementById("startButton").disabled=false;
-  show("measure"); updateProgress(); resetTarget();
-}
-function beginTrials_r(){
-  trial=0;times=[];correctCount=0;mistakeCount=0;falseStartCount=0;reverse = true;
   document.getElementById("startButton").disabled=false;
   show("measure"); updateProgress(); resetTarget();
 }
