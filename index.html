@@ -58,7 +58,7 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 <div class="card center">
 <h2 id="introTitle">基準測定</h2>
 <p id="introText">普段どおりに呼吸しながら測定します。色が表示されたら、対応する色のボタンをできるだけ早く押してください。</p>
-<button onclick="beginTrials();reset();">測定開始</button>
+<button onclick="beginTrials()">測定開始</button>
 </div>
 </section>
 
@@ -311,7 +311,7 @@ async function finishMeasure(){
 
   //if((mode == "baseline" && reverse == false)||(mode != "baseLine" && reverse == true))
   if(count == 0){
-    count++;
+    count += 1;
     baseAvg=a;
     baseAccuracy=accuracy;
     baseMistakes=mistakeCount;
