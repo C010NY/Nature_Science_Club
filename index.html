@@ -89,7 +89,7 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 <p id="breathDesc" class="note">呼吸法を選択してください。</p>
 </div>
 
-<button class="secondary" onclick="show('measureIntro');reset();">最初に戻る</button>
+<button class="secondary" onclick="show('reverse');reset();">最初に戻る</button>
 </section>
 
 <section id="breathIntro" class="screen">
@@ -130,7 +130,7 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 </div>
 <div class="result" id="change">--</div>
 <p id="resultText"></p>
-<button onclick="show('measureIntro');reset();">もう一度実験する</button>
+<button onclick="show('reverse');reset();">もう一度実験する</button>
 <p class="note">速くなった・遅くなったという結果は、体調、集中状態、練習効果など様々な要因の影響を受けます。この体験だけで「呼吸法が反応速度を改善した」とは判断できません。</p>
 </div>
 </section>
@@ -142,8 +142,10 @@ const supabaseClient = window.supabase.createClient(
   "https://gvqsyscxqocnswxrfbif.supabase.co",
   "sb_publishable_wEK-1CWE2Lcmr570BOLb7w_VCggTgGd"
 )
+let count = 0;
 const TRIALS=5;
-let mode="baseline",trial=0,times=[],baseAvg=null,breathType="",breathDesc="",timer=null,breathCountdown=null,trialTimer=null,startTime=0,waiting=false,correctCount=0,mistakeCount=0,falseStartCount=0,reverse = false;
+let mode="baseline";
+let trial=0,times=[],baseAvg=null,breathType="",breathDesc="",timer=null,breathCountdown=null,trialTimer=null,startTime=0,waiting=false,correctCount=0,mistakeCount=0,falseStartCount=0,reverse = false;
 let baseAccuracy=null,baseMistakes=0,baseFalseStarts=0;
 let participantCode = "";
 
@@ -184,7 +186,8 @@ function start_r(){
 }
 function reset()
 {
-  mode = "baseline";
+  //mode = "baseline";
+  count = 0;
   times = [];
   baseAvg = null;
   breathType = "";
@@ -306,7 +309,9 @@ async function finishMeasure(){
   const speedScore=a ? 1000/a : 0;
   const composite=Math.round(speedScore*(accuracy/100)*100)/100;
 
-  if((mode == "baseline" && reverse == false)||(mode != "baseLine" && reverse == true)){
+  //if((mode == "baseline" && reverse == false)||(mode != "baseLine" && reverse == true))
+  if(count == 0){
+    count++;
     baseAvg=a;
     baseAccuracy=accuracy;
     baseMistakes=mistakeCount;
@@ -420,7 +425,7 @@ function finishBreathing(){
  clearInterval(breathCountdown);
  timer=null;
  breathCountdown=null;
- mode="after";
+ //mode="after";
  document.getElementById("afterBreathText").textContent =
    `${breathType}を1分間体験しました。これから、呼吸後の「色の認識 → ボタン位置の確認 → タップ」の選択反応課題を5回行います。`;
  show("afterBreathIntro");
