@@ -439,39 +439,26 @@ function startBreathing(){
 
 function startBreathing_b(){
 
- clearInterval(timer);
- clearInterval(breathCountdown);
- timer=null;
- breathCountdown=null;
+  clearInterval(timer);
+  clearInterval(breathCountdown);
 
- show("breathing_b");
- /*
- let phase=0;
- const pattern = [{label:"吸う",sec:4,cls:"inhale"},{label:"止める",sec:4,cls:""},{label:"吐く",sec:4,cls:"exhale"}]
- const cycle=pattern.reduce((n,p)=>n+p.sec,0);
+  timer=null;
+  breathCountdown=null;
 
-  function updateBreath(){
-   const pos=phase%cycle;
-   let acc=0, current=pattern[0];
-   for(const p of pattern){
-     if(pos<acc+p.sec){current=p;break;}
-     acc+=p.sec;
-   }
-   document.getElementById("breathInstruction").textContent="";
-   document.getElementById("breathCircle_b").className="breath "+current.cls;
-   phase++;
- }*/
+  show("breathing_b");
 
- clearInterval(timer); clearInterval(breathCountdown);
- //updateBreath();
- timer=setInterval(updateBreath,1000);
- let sec_b=60;
- document.getElementById("breathCount_b").textContent=sec_b;
- breathCountdown=setInterval(()=>{
-   sec_b--;
-   document.getElementById("breathCount_b").textContent=Math.max(sec_b,0);
-   if(sec_b<=0) finishBreathing();
- },1000);
+  let sec_b=60;
+
+  document.getElementById("breathCount_b").textContent=sec_b;
+
+  breathCountdown=setInterval(()=>{
+    sec_b--;
+
+    document.getElementById("breathCount_b").textContent=Math.max(sec_b,0);
+
+    if(sec_b<=0) finishBreathing();
+
+  },1000);
 }
 
 function finishBreathing(){
