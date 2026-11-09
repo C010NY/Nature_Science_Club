@@ -446,7 +446,7 @@ function startBreathing_b(){
 
  show("breathing_b");
  let phase=0;
- const pattern = [{label:"リラックス",sec:4,cls:"inhale"}];
+ const pattern = [{label:"吸う",sec:4,cls:"inhale"},{label:"止める",sec:4,cls:""},{label:"吐く",sec:4,cls:"exhale"}]
  const cycle=pattern.reduce((n,p)=>n+p.sec,0);
 
  function updateBreath(){
@@ -479,7 +479,7 @@ function finishBreathing(){
  timer=null;
  breathCountdown=null;
  //mode="after";
- document.getElementById("afterBreathText").textContent =
+ if(reverse==false)document.getElementById("afterBreathText").textContent =
    `${breathType}を1分間体験しました。これから、呼吸後の「色の認識 → ボタン位置の確認 → タップ」の選択反応課題を5回行います。`;
  show("afterBreathIntro");
 }
