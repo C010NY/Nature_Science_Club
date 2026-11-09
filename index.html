@@ -102,6 +102,14 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 </div>
 </section>
 
+<section id="breathIntro_b" class="screen">
+<div class="card center">
+  <h2>通常呼吸</h2>
+  <p>1分間リラックスしてください</p>
+  <button onclick="startBreathing_b()">開始</button>
+</div>
+</section>
+
 <section id="breathing" class="screen">
 <div class="card center">
 <h2 id="breathName">呼吸</h2>
@@ -110,6 +118,16 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 <p><b id="breathCount">60</b> 秒</p>
 <button class="secondary" onclick="skipBreathing()">呼吸を終了</button>
 </div>
+</section>
+
+<section id="breathing_b" class="screen">
+  <div class="card center">
+    <h2 id="breathName">呼吸</h2>
+    <p id="breathInstruction">準備</p>
+    <div cass="breath" id="breathCitcle">🫁</div>
+    <p><b id="breathCount">60</b>秒</p>
+    <button class="secondary" onclick="skipBreathing()">呼吸を終了</button>
+  </div>
 </section>
 
 <section id="afterBreathIntro" class="screen">
@@ -318,7 +336,7 @@ async function finishMeasure(){
     baseFalseStarts=falseStartCount;
     document.getElementById("baseResult").textContent=a!==null ? a+" ms" : "測定不能";
     if(!reverse)show("breathSelect");
-    else show("measureIntro");
+    else show("breathIntro_b");
   }else{
     document.getElementById("afterLabel").textContent=breathType || "選択した呼吸法";
     document.getElementById("afterResult").textContent=a!==null ? a+" ms" : "測定不能";
@@ -394,6 +412,41 @@ function startBreathing(){
    : breathType==="4-7-8"
    ? [{label:"吸う",sec:4,cls:"inhale"},{label:"止める",sec:7,cls:""},{label:"吐く",sec:8,cls:"exhale"}]
    : [{label:"吸う",sec:4,cls:"inhale"},{label:"吐く",sec:8,cls:"exhale"}];
+ const cycle=pattern.reduce((n,p)=>n+p.sec,0);
+
+ function updateBreath(){
+   const pos=phase%cycle;
+   let acc=0, current=pattern[0];
+   for(const p of pattern){
+     if(pos<acc+p.sec){current=p;break;}
+     acc+=p.sec;
+   }
+   document.getElementById("breathInstruction").textContent=current.label;
+   document.getElementById("breathCircle").className="breath "+current.cls;
+   phase++;
+ }
+
+ clearInterval(timer); clearInterval(breathCountdown);
+ updateBreath();
+ timer=setInterval(updateBreath,1000);
+ let sec=60;
+ document.getElementById("breathCount").textContent=sec;
+ breathCountdown=setInterval(()=>{
+   sec--;
+   document.getElementById("breathCount").textContent=Math.max(sec,0);
+   if(sec<=0) finishBreathing();
+ },1000);
+}
+
+function startBreathing_b(){
+ clearInterval(timer);
+ clearInterval(breathCountdown);
+ timer=null;
+ breathCountdown=null;
+
+ show("breathing_b");
+ let phase=0;
+ const pattern = [{label:"リラックス",sec:60,cls:""}];
  const cycle=pattern.reduce((n,p)=>n+p.sec,0);
 
  function updateBreath(){
