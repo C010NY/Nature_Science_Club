@@ -124,7 +124,7 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
   <div class="card center">
     <h2 id="breathName">呼吸</h2>
     <p id="breathInstruction">準備</p>
-    <div cass="breath" id="breathCitcle">🫁</div>
+    <div cass="breath" id="breathCitcle">👍</div>
     <p><b id="breathCount">60</b>秒</p>
     <button class="secondary" onclick="skipBreathing()">呼吸を終了</button>
   </div>
@@ -446,11 +446,12 @@ function startBreathing_b(){
  breathCountdown=null;
 
  show("breathing_b");
+ /*
  let phase=0;
  const pattern = [{label:"吸う",sec:4,cls:"inhale"},{label:"止める",sec:4,cls:""},{label:"吐く",sec:4,cls:"exhale"}]
  const cycle=pattern.reduce((n,p)=>n+p.sec,0);
 
- /*function updateBreath(){
+  function updateBreath(){
    const pos=phase%cycle;
    let acc=0, current=pattern[0];
    for(const p of pattern){
@@ -463,7 +464,7 @@ function startBreathing_b(){
  }*/
 
  clearInterval(timer); clearInterval(breathCountdown);
- updateBreath();
+ //updateBreath();
  timer=setInterval(updateBreath,1000);
  let sec=60;
  document.getElementById("breathCount").textContent=sec;
