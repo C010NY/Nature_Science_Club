@@ -465,12 +465,12 @@ function startBreathing_b(){
  clearInterval(timer); clearInterval(breathCountdown);
  updateBreath();
  timer=setInterval(updateBreath,1000);
- let sec=60;
+ let sec_b=60;
  document.getElementById("breathCount_b").textContent=sec;
  breathCountdown=setInterval(()=>{
-   sec--;
-   document.getElementById("breathCount_b").textContent=Math.max(sec,0);
-   if(sec<=0) finishBreathing();
+   sec_b--;
+   document.getElementById("breathCount_b").textContent=Math.max(sec_b,0);
+   if(sec_b<=0) finishBreathing();
  },1000);
 }
 
