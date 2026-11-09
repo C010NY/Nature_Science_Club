@@ -439,6 +439,7 @@ function startBreathing(){
 }
 
 function startBreathing_b(){
+
  clearInterval(timer);
  clearInterval(breathCountdown);
  timer=null;
@@ -456,8 +457,8 @@ function startBreathing_b(){
      if(pos<acc+p.sec){current=p;break;}
      acc+=p.sec;
    }
-   document.getElementById("breathInstruction").textContent=current.label;
-   document.getElementById("breathCircle").className="breath "+current.cls;
+   document.getElementById("breathInstruction").textContent="";
+   //document.getElementById("breathCircle").className="breath "+current.cls;
    phase++;
  }
 
