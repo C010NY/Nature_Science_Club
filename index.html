@@ -446,7 +446,7 @@ function startBreathing_b(){
 
  show("breathing_b");
  let phase=0;
- const pattern = [{label:"リラックス",sec:60,cls:""}];
+ const pattern = [{label:"リラックス",sec:4,cls:"inhale"}];
  const cycle=pattern.reduce((n,p)=>n+p.sec,0);
 
  function updateBreath(){
