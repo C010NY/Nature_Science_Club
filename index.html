@@ -466,7 +466,7 @@ function startBreathing_b(){
  updateBreath();
  timer=setInterval(updateBreath,1000);
  let sec_b=60;
- document.getElementById("breathCount_b").textContent=sec;
+ document.getElementById("breathCount_b").textContent=sec_b;
  breathCountdown=setInterval(()=>{
    sec_b--;
    document.getElementById("breathCount_b").textContent=Math.max(sec_b,0);
