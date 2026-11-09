@@ -123,8 +123,8 @@ button.secondary{background:#e9edf5;color:#172033}button:disabled{opacity:.45;cu
 <section id="breathing_b" class="screen">
   <div class="card center">
     <h2 id="breathName">呼吸</h2>
-    <div calss="breath" id="breathCircle">🫁</div>
-    <p><b id="breathCount">60</b>秒</p>
+    <div calss="breath" id="breathCircle_b">🫁</div>
+    <p><b id="breathCount_b">60</b>秒</p>
     <button class="secondary" onclick="skipBreathing()">呼吸を終了</button>
   </div>
 </section>
@@ -458,18 +458,18 @@ function startBreathing_b(){
      acc+=p.sec;
    }
    document.getElementById("breathInstruction").textContent="";
-   document.getElementById("breathCircle").className="breath "+current.cls;
+   document.getElementById("breathCircle_b").className="breath "+current.cls;
    phase++;
  }*/
 
  clearInterval(timer); clearInterval(breathCountdown);
- //updateBreath();
+ updateBreath();
  timer=setInterval(updateBreath,1000);
  let sec=60;
- document.getElementById("breathCount").textContent=sec;
+ document.getElementById("breathCount_b").textContent=sec;
  breathCountdown=setInterval(()=>{
    sec--;
-   document.getElementById("breathCount").textContent=Math.max(sec,0);
+   document.getElementById("breathCount_b").textContent=Math.max(sec,0);
    if(sec<=0) finishBreathing();
  },1000);
 }
