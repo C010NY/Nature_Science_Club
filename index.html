@@ -450,7 +450,7 @@ function startBreathing_b(){
  const pattern = [{label:"吸う",sec:4,cls:"inhale"},{label:"止める",sec:4,cls:""},{label:"吐く",sec:4,cls:"exhale"}]
  const cycle=pattern.reduce((n,p)=>n+p.sec,0);
 
- function updateBreath(){
+ /*function updateBreath(){
    const pos=phase%cycle;
    let acc=0, current=pattern[0];
    for(const p of pattern){
@@ -458,9 +458,9 @@ function startBreathing_b(){
      acc+=p.sec;
    }
    document.getElementById("breathInstruction").textContent="";
-   //document.getElementById("breathCircle").className="breath "+current.cls;
+   document.getElementById("breathCircle").className="breath "+current.cls;
    phase++;
- }
+ }*/
 
  clearInterval(timer); clearInterval(breathCountdown);
  updateBreath();
