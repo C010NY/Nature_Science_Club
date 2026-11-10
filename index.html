@@ -572,7 +572,7 @@
         if(!reverse){
           defaultBreath[0] = a;
           defaultBreath[1] = accuracy;
-          defalutBreath[2] = mistakeCount;
+          defaultBreath[2] = mistakeCount;
           defaultBreath[3] = falseStartCount;
         }
         else
@@ -589,7 +589,7 @@
         if(reverse){
           defaultBreath[0] = a;
           defaultBreath[1] = accuracy;
-          defalutBreath[2] = mistakeCount;
+          defaultBreath[2] = mistakeCount;
           defaultBreath[3] = falseStartCount;
         }
         else
@@ -605,7 +605,7 @@
         document.getElementById("afterResult").textContent = experimentBreath[0] !== null ? experimentBreath[0] + " ms" : "測定不能";
       
         const d = (defaultBreath[0] !== null && experimentBreath[0] !== null) ? defaultBreath[0] - experimentBreath[0] : null;
-        const pct = (d !== null && defaultBreath[0]) ? d / DefaultBreath[0] * 100 : null;
+        const pct = (d !== null && defaultBreath[0]) ? d / defaultBreath[0] * 100 : null;
         const { error } = await supabaseClient
           .from("experiment_results")
           .insert({
