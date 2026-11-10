@@ -340,7 +340,7 @@ async function finishMeasure(){
     document.getElementById("afterLabel").textContent=breathType || "選択した呼吸法";
     document.getElementById("afterResult").textContent=a!==null ? a+" ms" : "測定不能";
 
-    if(reverse == TRUE)reverseChange();
+    if(reverse == TRUE)reverseChange(accuracy);
     const d=(baseAvg!==null && a!==null) ? baseAvg-a : null;
     const pct=(d!==null && baseAvg) ? d/baseAvg*100 : null;
     const { error } = await supabaseClient
@@ -381,7 +381,7 @@ if (error) {
   }
 }
 
-function reverseChange()
+function reverseChange(accuracy)
 {
   let A = baseAvg;
   baseAvg = a;
