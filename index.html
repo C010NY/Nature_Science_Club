@@ -383,19 +383,19 @@ if (error) {
 
 function reverseChange()
 {
-  A = baseAvg;
+  let A = baseAvg;
   baseAvg = a;
   a = A;
   
-  B = baseAccuracy;
+  let B = baseAccuracy;
   baseAccuracy = accuracy;
   accuracy = B;
 
-  C = baseMistakes;
+  let C = baseMistakes;
   baseMistakes = mistakeCount;
   mistakeCount = C;
 
-  D = baseFalseStarts;
+  let D = baseFalseStarts;
   baseFalseStarts = falseStartCount;
   falseStartCount = D;
 }
