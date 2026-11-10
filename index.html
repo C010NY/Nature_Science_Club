@@ -392,6 +392,10 @@
       "https://gvqsyscxqocnswxrfbif.supabase.co",
       "sb_publishable_wEK-1CWE2Lcmr570BOLb7w_VCggTgGd"
     )
+
+    let defaultBreath = [4];
+    let experimentBreath = [4];
+
     let count = 0;
     const TRIALS = 5;
     let mode = "baseline";
@@ -563,46 +567,60 @@
       //if((mode == "baseline" && reverse == false)||(mode != "baseLine" && reverse == true))
       if (count == 0) {
         count += 1;
-        baseAvg = a;
+        /*baseAvg = a;
         baseAccuracy = accuracy;
         baseMistakes = mistakeCount;
-        baseFalseStarts = falseStartCount;
-        document.getElementById("baseResult").textContent = a !== null ? a + " ms" : "測定不能";
+        baseFalseStarts = falseStartCount;*/
+        if(!reverse){
+          defaultBreath[0] = a;
+          defaultBreath[1] = accuracy;
+          defalutBreath[2] = mistakeCount;
+          defaultBreath[3] = falseStartCount;
+        }
+        else
+        {
+          experimentBreath[0] = a;
+          experimentBreath[1] = accuracy;
+          experimentBreath[2] = mistakeCount;
+          experimentBreath[3] = falseStartCount;
+        }
         if (!reverse) show("breathSelect");
         else show("breathIntro_b");
       } else {
-        if (reverse) {
-          baseAvg = a;
-          a = A;
 
-          baseAccuracy = accuracy;
-          accuracy = B;
-
-          baseMistakes = mistakeCount;
-          mistakeCount = C;
-
-          baseFalseStarts = falseStartCount;
-          falseStartCount = D;
+        if(reverse){
+          defaultBreath[0] = a;
+          defaultBreath[1] = accuracy;
+          defalutBreath[2] = mistakeCount;
+          defaultBreath[3] = falseStartCount;
+        }
+        else
+        {
+          experimentBreath[0] = a;
+          experimentBreath[1] = accuracy;
+          experimentBreath[2] = mistakeCount;
+          experimentBreath[3] = falseStartCount;
         }
 
         document.getElementById("afterLabel").textContent = breathType || "選択した呼吸法";
-        document.getElementById("afterResult").textContent = a !== null ? a + " ms" : "測定不能";
+        document.getElementById("baseResult").textContent = defaultBreath[0] !== null ? defaultBreath[0] + " ms" : "測定不能";
+        document.getElementById("afterResult").textContent = experimentBreath[0] !== null ? experimentBreath[0] + " ms" : "測定不能";
       
-        const d = (baseAvg !== null && a !== null) ? baseAvg - a : null;
-        const pct = (d !== null && baseAvg) ? d / baseAvg * 100 : null;
+        const d = (defaultBreath[0] !== null && experimentBreath[0] !== null) ? defaultBreath[0] - experimentBreath[0] : null;
+        const pct = (d !== null && defaultBreath[0]) ? d / DefaultBreath[0] * 100 : null;
         const { error } = await supabaseClient
           .from("experiment_results")
           .insert({
             participant_code: participantCode,
             breath_method: breathType,
-            baseline_ms: baseAvg,
-            after_ms: a,
-            baseline_accuracy: baseAccuracy,
-            after_accuracy: accuracy,
-            baseline_mistakes: baseMistakes,
-            after_mistakes: mistakeCount,
-            baseline_false_starts: baseFalseStarts,
-            after_false_starts: falseStartCount,
+            baseline_ms: defaultBreath[0],
+            after_ms: experimentBreath[0],
+            baseline_accuracy: defaultBreath[1],
+            after_accuracy: experimentBreath[1],
+            baseline_mistakes: defaultBreath[2],
+            after_mistakes: experimentBreath[2],
+            baseline_false_starts: defaultBreath[3],
+            after_false_starts: experimentBreath[3],
             reverse_bool: reverse
           });
 
