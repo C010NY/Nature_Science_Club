@@ -562,8 +562,6 @@
       let speedScore = a ? 1000 / a : 0;
       let composite = Math.round(speedScore * (accuracy / 100) * 100) / 100;
 
-      let A=baseAvg,B=baseAccuracy,C=baseMistakes,D=baseFalseStarts;
-
       //if((mode == "baseline" && reverse == false)||(mode != "baseLine" && reverse == true))
       if (count == 0) {
         count += 1;
@@ -637,10 +635,10 @@
           d !== null ? ((d >= 0 ? "⚡ " : "") + Math.abs(d) + " ms " + (d >= 0 ? "速くなりました" : "遅くなりました")) : "比較できません";
 
         document.getElementById("resultText").innerHTML =
-          `<b>普通の呼吸法</b>：正解率 ${baseAccuracy}% ／ ミス ${baseMistakes}回 ／ フライング ${baseFalseStarts}回<br>` +
-          `<b>${breathType}</b>：正解率 ${accuracy}% ／ ミス ${mistakeCount}回 ／ フライング ${falseStartCount}回<br>` +
+          `<b>普通の呼吸法</b>：正解率 ${defaultBreath[1]}% ／ ミス ${defaultBreath[2]}回 ／ フライング ${defaultBreath[3]}回<br>` +
+          `<b>${breathType}</b>：正解率 ${experimentBreath[1]}% ／ ミス ${experimentBreath[2]}回 ／ フライング ${experimentBreath[3]}回<br>` +
           `変化率：${pct !== null ? pct.toFixed(1) + "%" : "比較不能"}（プラスは速くなったことを表します）<br>` +
-          `参考スコア：${composite}（呼吸後の速さ×正解率。科学的な標準指標ではありません）`;
+          `逆順：${reverse}（呼吸後の速さ×正解率。科学的な標準指標ではありません）`;
 
         show("result");
       }
