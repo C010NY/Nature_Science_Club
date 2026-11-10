@@ -558,6 +558,8 @@
       const speedScore = a ? 1000 / a : 0;
       const composite = Math.round(speedScore * (accuracy / 100) * 100) / 100;
 
+      let A=baseAvg,B=baseAccuracy,C=baseMistakes,D=baseFalseStarts;
+
       //if((mode == "baseline" && reverse == false)||(mode != "baseLine" && reverse == true))
       if (count == 0) {
         count += 1;
@@ -569,26 +571,23 @@
         if (!reverse) show("breathSelect");
         else show("breathIntro_b");
       } else {
-        document.getElementById("afterLabel").textContent = breathType || "選択した呼吸法";
-        document.getElementById("afterResult").textContent = a !== null ? a + " ms" : "測定不能";
-
         if (reverse) {
-          let A = baseAvg;
           baseAvg = a;
           a = A;
 
-          let B = baseAccuracy;
           baseAccuracy = accuracy;
           accuracy = B;
 
-          let C = baseMistakes;
           baseMistakes = mistakeCount;
           mistakeCount = C;
 
-          let D = baseFalseStarts;
           baseFalseStarts = falseStartCount;
           falseStartCount = D;
         }
+
+        document.getElementById("afterLabel").textContent = breathType || "選択した呼吸法";
+        document.getElementById("afterResult").textContent = a !== null ? a + " ms" : "測定不能";
+      
         const d = (baseAvg !== null && a !== null) ? baseAvg - a : null;
         const pct = (d !== null && baseAvg) ? d / baseAvg * 100 : null;
         const { error } = await supabaseClient
