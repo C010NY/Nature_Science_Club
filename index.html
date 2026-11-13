@@ -234,6 +234,19 @@
       margin-top: 18px
     }
 
+    .custom-textbox {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 14px;
+      font-size: 16px;
+      color: #333;
+      background-color: #f7f7f7;
+      border: 1px solid #969da3;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.2s,background-color 0.2s;
+    }
+
     @media(max-width:560px) {
       .app {
         padding: 12px
@@ -272,6 +285,25 @@
         <p>まず普通の呼吸で反応速度を測り、そのあと好きな呼吸法を体験してもう一度測定します。<br>色を見分け、毎回場所が変わるボタンを探して押す「選択反応課題」です。</p>
         <button onclick="startBaseline()">実験スタート</button>
         <p class="note">※これは科学体験用の試作品です。測定結果から自律神経や覚醒度の変化を断定するものではありません。</p>
+      </div>
+    </section>
+
+    <section id="namespace" class="screen">
+      <div class="card">
+        <h1>情報入力</h1>
+        <input type="text" class="custom-textbox" id="NNN" codeName="ニックネームを入力してください">
+        <label for="ege">年齢を入力してください : </label>
+        <select name="ege" id="ege">
+          <option value="under10">10歳未満</option>
+          <option value="10to20">10代</option>
+          <option value="20to30">20代</option>
+          <option value="30to40">30代</option>
+          <option value="40to50">40代</option>
+          <option value="50to60">50代</option>
+          <option value="over60">60歳以上</option>
+          <option value="noAnswer">未回答</option>
+        </select>
+        <button onclick="checkInformation()">開始</button>
       </div>
     </section>
 
@@ -405,6 +437,13 @@
 
     function show(id) { document.querySelectorAll(".screen").forEach(x => x.classList.remove("active")); document.getElementById(id).classList.add("active") }
     function avg(a) { return a.reduce((x, y) => x + y, 0) / a.length }
+    function showNamespace(){show("namespace");}
+    function checkInformation(){
+      if(document.getElementById("namespace").codeName != "")
+      {
+        show("reverse");
+      }
+    }
     function startBaseline() {
       const code = prompt("ニックネームを入力してください");
 
