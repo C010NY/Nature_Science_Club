@@ -291,17 +291,18 @@
     <section id="namespace" class="screen">
       <div class="card">
         <h1>情報入力</h1>
-        <input type="text" class="custom-textbox" id="NNN" codeName="ニックネームを入力してください">
-        <label for="ege">年齢を入力してください : </label>
-        <select name="ege" id="ege">
-          <option value="under10">10歳未満</option>
-          <option value="10to20">10代</option>
-          <option value="20to30">20代</option>
-          <option value="30to40">30代</option>
-          <option value="40to50">40代</option>
-          <option value="50to60">50代</option>
-          <option value="over60">60歳以上</option>
-          <option value="noAnswer">未回答</option>
+        <input type="text" class="custom-textbox" id="NSC" placeholder="ニックネームを入力してください">
+        <label for="age">年齢を入力してください : </label>
+        <select name="age" id="age" required>
+          <option value="" selected disabled>年代を選択してください</option>
+          <option value="10歳未満">10歳未満</option>
+          <option value="10代">10代</option>
+          <option value="20代">20代</option>
+          <option value="30代">30代</option>
+          <option value="40代">40代</option>
+          <option value="50代">50代</option>
+          <option value="60歳以上">60歳以上</option>
+          <option value="未解答">未回答</option>
         </select>
         <button onclick="checkInformation()">開始</button>
       </div>
@@ -425,6 +426,7 @@
       "sb_publishable_wEK-1CWE2Lcmr570BOLb7w_VCggTgGd"
     )
 
+
     let defaultBreath = [4];
     let experimentBreath = [4];
 
@@ -433,28 +435,30 @@
     let mode = "baseline";
     let trial = 0, times = [], baseAvg = null, breathType = "", breathDesc = "", timer = null, breathCountdown = null, trialTimer = null, startTime = 0, waiting = false, correctCount = 0, mistakeCount = 0, falseStartCount = 0, reverse = false;
     let baseAccuracy = null, baseMistakes = 0, baseFalseStarts = 0;
-    let participantCode = "";
+    let participantCode = "",age = "";
 
     function show(id) { document.querySelectorAll(".screen").forEach(x => x.classList.remove("active")); document.getElementById(id).classList.add("active") }
     function avg(a) { return a.reduce((x, y) => x + y, 0) / a.length }
     function showNamespace(){show("namespace");}
     function checkInformation(){
-      if(document.getElementById("namespace").codeName != "")
+      let code = document.getElementById("NSC").value.trim();
+      let number = document.getElementById("age").value;
+      if(code.length > 0 && code.length < 30 && age === "")
       {
+        participantCode = code;
+        age = number;
         show("reverse");
+      }
+      else
+      {
+        if(number == "")alert("年齢を選択してください(答えたくない方は『未解答』を選択してください)");
+        if(!code)alert("ニックネームを入力してください");
+        if(code.length >= 30)alert("ニックネームは30文字以内で入力してください");
+        return;
       }
     }
     function startBaseline() {
-      const code = prompt("ニックネームを入力してください");
 
-      if (code === null) return;
-
-      participantCode = code.trim();
-
-      if (participantCode.length < 1 || participantCode.length > 30) {
-        alert("ニックネームは1〜30文字で入力してください。");
-        return;
-      }
       document.querySelectorAll(".option").forEach(x =>
         x.classList.remove("selected")
       );
@@ -465,8 +469,8 @@
       document.getElementById("introTitle").textContent = "基準測定";
       document.getElementById("introText").textContent =
         "普段どおりに呼吸しながら、同じ選択反応課題を5回行います。";
-
-      show("reverse");
+      show("namespace");
+      //show("reverse");
       //show("measureIntro");
     }
     function start() {
@@ -649,6 +653,7 @@
           .from("experiment_results")
           .insert({
             participant_code: participantCode,
+            age : age,
             breath_method: breathType,
             baseline_ms: defaultBreath[0],
             after_ms: experimentBreath[0],
